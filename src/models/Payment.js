@@ -1,7 +1,12 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Payment extends Model {}
+  class Payment extends Model {
+    static associate(models) {
+      // Thanh toán thuộc về một Hóa đơn học phí
+      Payment.belongsTo(models.Tuition, { foreignKey: 'tuitionId' });
+    }
+  }
 
   Payment.init(
     {

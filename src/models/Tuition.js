@@ -1,7 +1,15 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Tuition extends Model {}
+  class Tuition extends Model {
+    static associate(models) {
+      // Học phí thuộc về Sinh viên
+      Tuition.belongsTo(models.Student, { foreignKey: 'studentId' });
+
+      // Học phí có nhiều lần Thanh toán (Payment)
+      Tuition.hasMany(models.Payment, { foreignKey: 'tuitionId' });
+    }
+  }
 
   Tuition.init(
     {

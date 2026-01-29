@@ -1,7 +1,14 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Faculty extends Model {}
+  class Faculty extends Model {
+    static associate(models) {
+      // Một Khoa có nhiều Ngành
+      Faculty.hasMany(models.Major, { foreignKey: 'facultyId' });
+      // Một Khoa có nhiều Giảng viên
+      Faculty.hasMany(models.Lecturer, { foreignKey: 'facultyId' });
+    }
+  }
 
   Faculty.init(
     {

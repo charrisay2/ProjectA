@@ -2,32 +2,34 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Courses', {
-      course_id: {
+    await queryInterface.createTable('majors', {
+      majorId: {
         type: Sequelize.STRING,
         allowNull: false,
         primaryKey: true
       },
-
-      course_name: {
+      majorName: {
         type: Sequelize.STRING,
         allowNull: false
       },
-
-      credits: {
+      totalCredits: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-
-      major_id: {
+      // Khóa ngoại trỏ về Faculties
+      facultyId: {
         type: Sequelize.STRING,
-        allowNull: false
-        // FOREIGN KEY → Majors
+        allowNull: false,
+        references: {
+          model: 'faculties',
+          key: 'facultyId'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       }
     });
   },
-
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Courses');
+    await queryInterface.dropTable('majors');
   }
 };

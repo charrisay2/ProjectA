@@ -1,7 +1,12 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Grade extends Model {}
+  class Grade extends Model {
+    static associate(models) {
+      // Điểm số thuộc về một bản ghi Đăng ký cụ thể
+      Grade.belongsTo(models.Enrollment, { foreignKey: 'enrollmentId' });
+    }
+  }
 
   Grade.init(
     {

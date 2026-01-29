@@ -1,7 +1,12 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Schedule extends Model {}
+  class Schedule extends Model {
+    static associate(models) {
+      // Thời khóa biểu thuộc về một Lớp học phần
+      Schedule.belongsTo(models.CourseOffering, { foreignKey: 'offeringId' });
+    }
+  }
 
   Schedule.init(
     {

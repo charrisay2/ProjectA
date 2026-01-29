@@ -1,7 +1,16 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Major extends Model {}
+  class Major extends Model {
+    static associate(models) {
+      // Ngành thuộc về Khoa
+      Major.belongsTo(models.Faculty, { foreignKey: 'facultyId' });
+      // Ngành có nhiều Lớp sinh hoạt
+      Major.hasMany(models.Class, { foreignKey: 'majorId' });
+      // Ngành quản lý nhiều Môn học
+      Major.hasMany(models.Course, { foreignKey: 'majorId' });
+    }
+  }
 
   Major.init(
     {

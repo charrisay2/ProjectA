@@ -1,7 +1,17 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Class extends Model {}
+  class Class extends Model {
+    static associate(models) { 
+      // Lớp thuộc về Ngành
+      Class.belongsTo(models.Major, { foreignKey: 'majorId' });
+      // Lớp có Giảng viên cố vấn
+      // Dùng alias 'advisor' để khi query có thể gọi: class.getAdvisor()
+      Class.belongsTo(models.Lecturer, { foreignKey: 'advisorId', as: 'advisor' });
+      // Lớp có nhiều Sinh viên
+      Class.hasMany(models.Student, { foreignKey: 'class_id' });
+    }
+  }
 
   Class.init(
     {

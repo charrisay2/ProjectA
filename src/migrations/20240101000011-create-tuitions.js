@@ -2,41 +2,41 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Tuitions', {
-      tuition_id: {
+    await queryInterface.createTable('tuitions', {
+      tuitionId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
       },
-
-      student_id: {
+      // FK: Sinh viên
+      studentId: {
         type: Sequelize.STRING,
-        allowNull: false
-        // FOREIGN KEY → Students
+        allowNull: false,
+        references: {
+          model: 'students', // Khớp với tên bảng trong file create-students
+          key: 'studentId'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
-
       semester: {
         type: Sequelize.STRING,
         allowNull: false
       },
-
       year: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-
-      total_amount: {
+      totalAmount: {
         type: Sequelize.FLOAT,
         allowNull: false
       },
-
-      paid_amount: {
+      paidAmount: {
         type: Sequelize.FLOAT,
         allowNull: false,
         defaultValue: 0
       },
-
       status: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -44,8 +44,7 @@ module.exports = {
       }
     });
   },
-
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Tuitions');
+    await queryInterface.dropTable('tuitions');
   }
 };

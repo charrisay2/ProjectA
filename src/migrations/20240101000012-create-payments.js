@@ -2,38 +2,40 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Payments', {
-      payment_id: {
+    await queryInterface.createTable('payments', {
+      paymentId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
       },
-
-      tuition_id: {
+      // FK: Hóa đơn học phí
+      tuitionId: {
         type: Sequelize.INTEGER,
-        allowNull: false
-        // FOREIGN KEY → Tuitions
+        allowNull: false,
+        references: {
+          model: 'tuitions', // Khớp với tên bảng tuitions ở trên
+          key: 'tuitionId'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
-
-      payment_date: {
+      paymentDate: {
         type: Sequelize.DATEONLY,
         allowNull: false
       },
-
       amount: {
         type: Sequelize.FLOAT,
         allowNull: false
       },
-
       method: {
         type: Sequelize.STRING,
         allowNull: false
+        // tien_mat | chuyen_khoan
       }
     });
   },
-
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Payments');
+    await queryInterface.dropTable('payments');
   }
 };
